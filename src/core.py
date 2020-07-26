@@ -1,6 +1,6 @@
 from telegram.ext import CommandHandler, Filters, MessageHandler, Updater
 from conf.settings import TELEGRAM_TOKEN
-from model.DAO import busca_rodizio, get_cidades
+from model.DAO import busca_rodizio, get_cidades, get_bairros
 from datetime import datetime
 import logging
 import math
@@ -26,6 +26,8 @@ def start(bot, update):
    
     Para saber as cidades cadastradas envie /cidades
 
+    Para saber os bairros cadastrados envie /bairros  e a cidade ex(/bairros curitiba)
+    
     Para ver esta mensagem novamente envie /help
     """
 
@@ -80,6 +82,19 @@ def ver_cidades(bot, update, args):
         text=message
     )
 
+def ver_bairros(bot, update, args):
+    args = " ".join(args)
+
+    if args == '':
+        return unknown(bot, update) 
+
+    logging.info(f"chat_id: {update.message.chat_id}, args: {args}")
+    bairros = ["\n\t\t" + bairro for bairro in get_bairros(args)['bairro']]
+    message = "Bairros:" + "".join(bairros).title()
+    bot.send_message(
+        chat_id=update.message.chat_id,
+        text=message
+    )
 
 
 
@@ -110,6 +125,10 @@ def main():
 
     dispatcher.add_handler(
         CommandHandler('cidades', ver_cidades, pass_args=True)
+    )
+
+    dispatcher.add_handler(
+        CommandHandler('bairros', ver_bairros, pass_args=True)
     )
 
     dispatcher.add_handler(

@@ -18,6 +18,10 @@ select tb1.cidade, count(tb2.bairro) as 'qtd_bairro' from cidades as tb1
 select min(data_inicio), MAX(data_inicio) from rodizio;
 
 
+
+SELECT bairro from bairros as b join cidades c on c.id = b.cidade_id where c.cidade = 'curitiba' order by bairro asc;
+
+
 select * from rodizio where data_inicio  BETWEEN "2020-07-22 00:00" and "2020-07-22 23:59";
 
 select count(*) from rodizio where data_inicio like "%2020-07-22%";

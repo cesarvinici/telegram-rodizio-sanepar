@@ -22,6 +22,10 @@ def get_cidades():
     query = "SELECT cidade from cidades;"
     return pd.read_sql(query, conn)
 
+def get_bairros(cidade):
+    conn = db_connect()
+    query = f"SELECT bairro from bairros as b join cidades c on c.id = b.cidade_id where c.cidade = '{cidade.strip().lower()}' order by bairro asc;"
+    return pd.read_sql(query, conn)
 
 def get_sql_cidade():
     with open("src/model/busca_rodizio_cidade.sql", 'r') as file_open:
