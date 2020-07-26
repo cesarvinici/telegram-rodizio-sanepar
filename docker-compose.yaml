@@ -1,0 +1,7 @@
+version: '3'
+services:
+  sanepar-telegram:
+    build: .
+    volumes:
+      - ./src:/app/src
+    container_name: sanepar-telegram
